@@ -1,0 +1,126 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Xml.Linq;
+using SecurityLibrary;
+
+namespace Assignment_5_6
+{
+    // Single place where the application reads from and writes to XML files
+    public static class XmlDataStore
+    {
+        // Converts relative path to full path
+        private static string MapPath(string relativePath)
+        {
+            return HttpContext.Current.Server.MapPath(relativePath);
+        }
+
+        public static bool MemberExists(string username)
+        {
+            string path = MapPath("~/App_Data/Member.xml");
+            XDocument doc = XDocument.Load(path);
+            return doc.Root.Elements("member")
+                .Any(x => string.Equals((string)x.Element("username"), username, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static void AddMember(string username, string passwordHash)
+        {
+            string path = MapPath("~/App_Data/Member.xml");
+            XDocument doc = XDocument.Load(path);
+            doc.Root.Add(
+                new XElement("member",
+                    new XElement("username", username),
+                    new XElement("passwordHash", passwordHash),
+                    new XElement("createdAt", DateTime.Now.ToString("s"))
+                )
+            );
+            doc.Save(path);
+        }
+
+        public static bool ValidateMember(string username, string password)
+        {
+            string path = MapPath("~/App_Data/Member.xml");
+            XDocument doc = XDocument.Load(path);
+            XElement member = doc.Root.Elements("member")
+                .FirstOrDefault(x => string.Equals((string)x.Element("username"), username, StringComparison.OrdinalIgnoreCase));
+            if (member == null) return false;
+            string storedHash = (string)member.Element("passwordHash");
+            return PasswordHasher.VerifyPassword(password, storedHash);
+        }
+
+        public static bool ValidateStaff(string username, string password)
+        {
+            string path = MapPath("~/App_Data/Staff.xml");
+            XDocument doc = XDocument.Load(path);
+            XElement staff = doc.Root.Elements("staff")
+                .FirstOrDefault(x => string.Equals((string)x.Element("username"), username, StringComparison.OrdinalIgnoreCase));
+            if (staff == null) return false;
+            string storedHash = (string)staff.Element("passwordHash");
+            return PasswordHasher.VerifyPassword(password, storedHash);
+        }
+
+        public static void AddAppointment(string username, string serviceName, string appointmentDate, string timeSlot)
+        {
+            string path = MapPath("~/App_Data/Appointments.xml");
+            XDocument doc = XDocument.Load(path);
+            doc.Root.Add(
+                new XElement("appointment",
+                    new XElement("username", username),
+                    new XElement("serviceName", serviceName),
+                    new XElement("appointmentDate", appointmentDate),
+                    new XElement("timeSlot", timeSlot),
+                    new XElement("createdAt", DateTime.Now.ToString("s"))
+                )
+            );
+            doc.Save(path);
+        }
+
+        public static void AddTransaction(string username, string serviceName, decimal amount, string paymentMethod)
+        {
+            string path = MapPath("~/App_Data/Transactions.xml");
+            XDocument doc = XDocument.Load(path);
+            doc.Root.Add(
+                new XElement("transaction",
+                    new XElement("username", username),
+                    new XElement("serviceName", serviceName),
+                    new XElement("amount", amount),
+                    new XElement("paymentMethod", paymentMethod),
+                    new XElement("createdAt", DateTime.Now.ToString("s"))
+                )
+            );
+            doc.Save(path);
+        }
+
+        public static void AddReview(string username, string serviceName, int rating, string comments)
+        {
+            string path = MapPath("~/App_Data/Reviews.xml");
+            XDocument doc = XDocument.Load(path);
+            doc.Root.Add(
+                new XElement("review",
+                    new XElement("username", username),
+                    new XElement("serviceName", serviceName),
+                    new XElement("rating", rating),
+                    new XElement("comments", comments),
+                    new XElement("createdAt", DateTime.Now.ToString("s"))
+                )
+            );
+            doc.Save(path);
+        }
+
+        public static XDocument GetAppointments()
+        {
+            return XDocument.Load(MapPath("~/App_Data/Appointments.xml"));
+        }
+
+        public static XDocument GetTransactions()
+        {
+            return XDocument.Load(MapPath("~/App_Data/Transactions.xml"));
+        }
+
+        public static XDocument GetReviews()
+        {
+            return XDocument.Load(MapPath("~/App_Data/Reviews.xml"));
+        }
+    }
+}
