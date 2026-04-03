@@ -1,194 +1,254 @@
-﻿/* ================================================
-   Serenity Spa - Main Stylesheet
-   CSE 445 Assignment 5/6
-   ================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@200;300;400;500&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+/* ---- CSS Variables ---- */
+:root {
+    --ink:        #1a1a18;
+    --forest:     #1e3a2f;
+    --moss:       #2d5a45;
+    --gold:       #c9a84c;
+    --gold-light: #e8c97a;
+    --cream:      #f7f3ec;
+    --cream-dark: #ede8df;
+    --white:      #fdfcfa;
+    --mist:       rgba(247, 243, 236, 0.06);
+    --card-bg:    rgba(253, 252, 250, 0.96);
+    --shadow:     0 8px 40px rgba(26, 26, 24, 0.18);
+    --shadow-sm:  0 2px 16px rgba(26, 26, 24, 0.10);
+}
 
-/* ---- Base & Background ---- */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Lato', Arial, sans-serif;
-    color: #2c3e6b;
-    background: linear-gradient(135deg, #a8d8ea 0%, #c9e8f5 40%, #e0f4fb 100%);
+/* ---- Reset & Base ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--ink);
+    background-color: var(--forest);
+    background-image:
+        radial-gradient(ellipse at 0% 0%, rgba(45, 90, 69, 0.8) 0%, transparent 60%),
+        radial-gradient(ellipse at 100% 100%, rgba(201, 168, 76, 0.08) 0%, transparent 55%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-    /* ---- Floating Bubbles Background ---- */
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        background-image: radial-gradient(circle at 15% 20%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 60%), radial-gradient(circle at 80% 10%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 55%), radial-gradient(circle at 50% 70%, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 50%), radial-gradient(circle at 90% 80%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 45%), radial-gradient(circle at 10% 85%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
-    }
-
-    /* Animated floating bubbles */
-    body::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        background-image: radial-gradient(circle, rgba(255,255,255,0.6) 8px, transparent 8px), radial-gradient(circle, rgba(255,255,255,0.4) 5px, transparent 5px), radial-gradient(circle, rgba(255,255,255,0.5) 12px, transparent 12px), radial-gradient(circle, rgba(255,255,255,0.3) 6px, transparent 6px), radial-gradient(circle, rgba(255,255,255,0.5) 9px, transparent 9px), radial-gradient(circle, rgba(255,255,255,0.4) 4px, transparent 4px);
-        background-size: 300px 400px, 250px 350px, 400px 500px, 200px 300px, 350px 450px, 180px 280px;
-        background-position: 20px 50px, 150px 200px, 80px 350px, 220px 80px, 310px 280px, 60px 430px;
-        animation: floatBubbles 18s linear infinite;
-        opacity: 0.7;
-    }
-
-@keyframes floatBubbles {
-    0% {
-        background-position: 20px 50px, 150px 200px, 80px 350px, 220px 80px, 310px 280px, 60px 430px;
-    }
-
-    100% {
-        background-position: 20px -400px, 150px -250px, 80px -150px, 220px -380px, 310px -230px, 60px -100px;
-    }
+/* ---- Decorative botanical line top ---- */
+body::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
 }
 
 /* ---- Navbar ---- */
 .navbar {
-    background: linear-gradient(90deg, #1a3a6b 0%, #2a5298 100%) !important;
-    box-shadow: 0 2px 12px rgba(26, 58, 107, 0.4);
-    position: relative;
-    z-index: 100;
+    background: rgba(26, 26, 24, 0.92) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar-brand {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 1.5rem !important;
-    color: #c9e8f5 !important;
-    letter-spacing: 1px;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 1.65rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+    color: var(--cream) !important;
+    transition: color 0.3s;
 }
 
-    .navbar-brand::before {
-        content: '✦ ';
-        color: #a8d8ea;
-    }
+.navbar-brand:hover { color: var(--gold-light) !important; }
+
+.navbar-brand::before {
+    content: '✦  ';
+    color: var(--gold);
+    font-size: 0.7rem;
+    vertical-align: middle;
+}
+
+.navbar-brand::after {
+    content: '  ✦';
+    color: var(--gold);
+    font-size: 0.7rem;
+    vertical-align: middle;
+}
 
 .nav-link {
-    color: #c9e8f5 !important;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-    transition: color 0.2s;
+    font-family: 'Jost', sans-serif !important;
+    font-weight: 300 !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    color: rgba(247, 243, 236, 0.75) !important;
+    padding: 6px 16px !important;
+    transition: color 0.3s !important;
+    position: relative;
 }
 
-    .nav-link:hover {
-        color: #ffffff !important;
-    }
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 16px; right: 16px;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
 
-/* ---- Main Container ---- */
+.nav-link:hover { color: var(--gold-light) !important; }
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* ---- Main Content Area ---- */
 .container.body-content {
-    position: relative;
-    z-index: 10;
-    padding: 30px 20px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
 }
 
 /* ---- Cards ---- */
 .card, .spa-card {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(168, 216, 234, 0.5);
-    border-radius: 18px;
-    padding: 28px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 20px rgba(42, 82, 152, 0.12);
+    background: var(--card-bg);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 4px;
+    padding: 40px 44px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
 }
 
-    .card::before, .spa-card::before {
-        content: '';
-        position: absolute;
-        top: -30px;
-        right: -30px;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: rgba(168, 216, 234, 0.2);
-        pointer-events: none;
-    }
+/* Gold corner accent */
+.card::before, .spa-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15) 0%, transparent 60%);
+    pointer-events: none;
+}
 
 /* ---- Headings ---- */
 h1, h2, h3, h4 {
-    font-family: 'Playfair Display', serif;
-    color: #1a3a6b;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    color: var(--forest);
+    line-height: 1.2;
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-bottom: 8px;
-}
-
-h2 {
-    font-size: 1.6rem;
-}
-
-h3 {
-    font-size: 1.2rem;
-}
+h1 { font-size: 2.8rem; letter-spacing: 1px; }
+h2 { font-size: 2rem; letter-spacing: 0.5px; }
+h3 { font-size: 1.4rem; }
 
 .page-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
-    color: #1a3a6b;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
     text-align: center;
+    letter-spacing: 2px;
     margin-bottom: 6px;
 }
 
 .page-subtitle {
     text-align: center;
-    color: #5a7ab5;
-    font-weight: 300;
-    font-size: 1rem;
-    margin-bottom: 28px;
+    color: var(--gold);
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    font-weight: 400;
 }
 
-/* ---- Inputs & Selects ---- */
+/* ---- Welcome Banner ---- */
+.welcome-banner {
+    text-align: center;
+    padding: 64px 40px;
+    margin-bottom: 36px;
+    position: relative;
+}
+
+.welcome-banner h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.welcome-banner p {
+    color: rgba(247, 243, 236, 0.65);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.welcome-banner::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 24px auto 0;
+}
+
+/* ---- Gold divider ---- */
+.spa-divider, hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+    margin: 40px 0;
+}
+
+/* ---- Form Elements ---- */
+label {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-bottom: 6px;
+    margin-top: 16px;
+}
+
 input[type=text],
 input[type=password],
 input[type=date],
 select,
 textarea {
     width: 100%;
-    max-width: 340px;
-    padding: 10px 14px;
-    margin-top: 6px;
-    border: 1.5px solid #a8d8ea;
-    border-radius: 10px;
-    font-family: 'Lato', sans-serif;
+    max-width: 380px;
+    padding: 12px 16px;
+    border: 1px solid rgba(30, 58, 47, 0.3);
+    border-bottom: 2px solid var(--moss);
+    border-radius: 2px;
+    font-family: 'Jost', sans-serif;
     font-size: 0.95rem;
-    color: #2c3e6b;
-    background: rgba(255,255,255,0.9);
+    font-weight: 300;
+    color: var(--ink);
+    background: var(--white);
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    display: block;
 }
 
-    input[type=text]:focus,
-    input[type=password]:focus,
-    select:focus,
-    textarea:focus {
-        border-color: #2a5298;
-        box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.12);
-    }
-
-label {
-    font-weight: 700;
-    color: #2a5298;
-    font-size: 0.9rem;
-    letter-spacing: 0.3px;
+input[type=text]:focus,
+input[type=password]:focus,
+select:focus,
+textarea:focus {
+    border-bottom-color: var(--gold);
+    box-shadow: 0 4px 12px rgba(201, 168, 76, 0.1);
 }
 
 /* ---- Buttons ---- */
@@ -196,182 +256,131 @@ input[type=submit],
 button,
 .btn,
 .spa-btn {
-    background: linear-gradient(135deg, #2a5298 0%, #1a3a6b 100%);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 26px;
-    font-family: 'Lato', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--forest);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 14px 36px;
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 3px 10px rgba(42, 82, 152, 0.3);
-    margin-top: 8px;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+    margin-top: 20px;
+    display: inline-block;
 }
 
-    input[type=submit]:hover,
-    button:hover,
-    .btn:hover,
-    .spa-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(42, 82, 152, 0.35);
-    }
+input[type=submit]:hover,
+button:hover,
+.btn:hover,
+.spa-btn:hover {
+    background: var(--gold);
+    color: var(--ink);
+    transform: translateY(-1px);
+}
 
 .btn-secondary {
-    background: linear-gradient(135deg, #a8d8ea 0%, #7bbcd9 100%);
-    color: #1a3a6b;
+    background: transparent;
+    color: var(--forest);
+    border-color: var(--moss);
 }
 
-/* ---- Labels / Status Messages ---- */
-.spa-label, [id*="lbl"]:not([id*="lblCaptcha"]) {
-    color: #2a5298;
-    font-weight: 400;
+.btn-secondary:hover {
+    background: var(--moss);
+    color: var(--cream);
 }
 
-.success-msg {
-    color: #1a6b3a;
-    background: rgba(168, 234, 195, 0.3);
-    border-radius: 8px;
-    padding: 8px 14px;
+/* ---- Status messages ---- */
+[id*="lbl"]:not([id*="lblCaptcha"]):not(:empty) {
     display: inline-block;
-    margin-top: 8px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--moss);
 }
 
-.error-msg {
-    color: #6b1a1a;
-    background: rgba(234, 168, 168, 0.3);
-    border-radius: 8px;
-    padding: 8px 14px;
-    display: inline-block;
-    margin-top: 8px;
-}
-
-/* ---- Captcha Box ---- */
+/* ---- Captcha ---- */
 .captcha-box {
-    background: linear-gradient(135deg, #1a3a6b, #2a5298);
-    color: white;
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 8px;
-    text-align: center;
-    padding: 12px 20px;
-    border-radius: 10px;
-    display: inline-block;
-    margin: 8px 0;
+    background: var(--forest);
+    color: var(--gold-light);
     font-family: 'Courier New', monospace;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+    font-size: 1.5rem;
+    letter-spacing: 10px;
+    padding: 14px 24px;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 12px 0;
+    border: 1px solid rgba(201,168,76,0.3);
     user-select: none;
 }
 
-/* ---- Table (Service Directory) ---- */
+/* ---- Tables ---- */
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(42,82,152,0.1);
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 16px;
 }
 
 thead tr {
-    background: linear-gradient(90deg, #1a3a6b, #2a5298);
-    color: white;
+    background: var(--forest);
+    color: var(--cream);
 }
 
 thead th {
-    padding: 12px 16px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 0.88rem;
-    letter-spacing: 0.5px;
+    padding: 14px 18px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    text-align: left;
+    border-bottom: 2px solid var(--gold);
 }
 
-tbody tr {
-    background: rgba(255,255,255,0.85);
-    transition: background 0.15s;
-}
-
-    tbody tr:nth-child(even) {
-        background: rgba(168, 216, 234, 0.2);
-    }
-
-    tbody tr:hover {
-        background: rgba(168, 216, 234, 0.4);
-    }
+tbody tr { background: var(--white); transition: background 0.15s; }
+tbody tr:nth-child(even) { background: var(--cream); }
+tbody tr:hover { background: var(--cream-dark); }
 
 tbody td {
-    padding: 11px 16px;
-    border-bottom: 1px solid rgba(168, 216, 234, 0.4);
-    font-size: 0.93rem;
+    padding: 13px 18px;
+    border-bottom: 1px solid rgba(30,58,47,0.08);
+    color: var(--ink);
+    font-weight: 300;
 }
 
 /* ---- Footer ---- */
 footer {
     text-align: center;
-    color: #5a7ab5;
-    font-size: 0.85rem;
-    padding: 16px 0 8px;
-    font-weight: 300;
+    padding: 24px 0 12px;
     position: relative;
     z-index: 10;
 }
 
-    footer::before {
-        content: '✦ ';
-        color: #a8d8ea;
-    }
-
-    footer::after {
-        content: ' ✦';
-        color: #a8d8ea;
-    }
-
-/* ---- Welcome Banner ---- */
-.welcome-banner {
-    background: linear-gradient(135deg, #1a3a6b 0%, #2a5298 50%, #3a6bc4 100%);
-    color: white;
-    border-radius: 18px;
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 28px;
-    box-shadow: 0 4px 20px rgba(42,82,152,0.25);
+footer p {
+    color: rgba(247, 243, 236, 0.4);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 300;
 }
 
-    .welcome-banner h1 {
-        color: white;
-        font-family: 'Playfair Display', serif;
-        font-size: 2.5rem;
-        margin-bottom: 8px;
-    }
+footer p::before { content: '✦  '; color: var(--gold); font-size: 0.6rem; }
+footer p::after  { content: '  ✦'; color: var(--gold); font-size: 0.6rem; }
 
-    .welcome-banner p {
-        color: #c9e8f5;
-        font-weight: 300;
-        font-size: 1.05rem;
-    }
-
-/* ---- Section Dividers ---- */
-.spa-divider {
-    border: none;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #a8d8ea, transparent);
-    margin: 24px 0;
+/* ---- Navbar toggler ---- */
+.navbar-toggler { border-color: rgba(201,168,76,0.4) !important; }
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(201, 168, 76, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
-    .page-title {
-        font-size: 1.8rem;
-    }
-
-    .card, .spa-card {
-        padding: 18px;
-    }
-
-    input[type=text], input[type=password], select, textarea {
-        max-width: 100%;
-    }
+    .page-title { font-size: 2.2rem; }
+    .welcome-banner h1 { font-size: 2.4rem; }
+    .card, .spa-card { padding: 28px 24px; }
+    input[type=text], input[type=password], select, textarea { max-width: 100%; }
+    h1 { font-size: 2rem; }
 }
